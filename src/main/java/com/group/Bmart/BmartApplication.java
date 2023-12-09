@@ -8,6 +8,7 @@ public class BmartApplication {
 
 	public static void main(String[] args) {
 		   SpringApplication.run(BmartApplication.class, args);
+       System.out.println("jbc git test");
 	}
 
 }
