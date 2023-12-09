@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BmartApplication {
 
 	public static void main(String[] args) {
-		 SpringApplication.run(BmartApplication.class, args);
+		   SpringApplication.run(BmartApplication.class, args);
 	}
 
 }
