@@ -8,7 +8,7 @@ public class BmartApplication {
 
 	public static void main(String[] args) {
 		   SpringApplication.run(BmartApplication.class, args);
-       System.out.println("마지막으로 경고한다 이번엔 받아줘요");
+       System.out.println("마지막으로 경고한다 이번엔 정봉찬이다.");
 	}
 
 }
