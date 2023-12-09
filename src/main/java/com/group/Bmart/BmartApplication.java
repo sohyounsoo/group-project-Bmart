@@ -8,6 +8,7 @@ public class BmartApplication {
 
 	 public static void main(String[] args) {
 		   SpringApplication.run(BmartApplication.class, args);
+		   /* 나 정봉찬 안뇽 */
 	}
 
 }
