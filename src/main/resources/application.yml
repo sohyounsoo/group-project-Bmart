@@ -5,7 +5,7 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://bmartdb.c50c8lf82noq.ap-northeast-2.rds.amazonaws.com:5432
+    url: jdbc:postgresql://bmartdb.c50c8lf82noq.ap-northeast-2.rds.amazonaws.com:5432/postgres
     username: devwqc
     password: jbcibal777
 
