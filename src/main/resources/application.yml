@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    include:
+      - local
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://bmartdb.c50c8lf82noq.ap-northeast-2.rds.amazonaws.com:5432/postgres
+    username: devwqc
+    password: jbcibal777
+
+    jpa:
+      show-sql: true
+      generate-ddl: false
+      hibernate:
+        ddl-auto: validate
+
+      properties:
+        hibernate:
+          format_sql: true
+
+  logging:
+    level:
+      org.hibernate.SQL: debug
+      org.hibernate.orm.jdbc.bind: trace #??? ?? 3.x, hibernate6
+
+jwt:
+  issuer: Bmart
+  client-secret: aBcDeFgH1234567890IjKlMnOpQrStUvWxYz
+  expiry-seconds: 3600
