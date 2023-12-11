@@ -30,17 +30,17 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 public class WebSecurityConfig {
 
     //인메모리 방식의 oauth 토큰 저장은 jdbc 방식으로 변경한다.
-    @Bean
-    public OAuth2AuthorizedClientService authorizedClientService(
-        JdbcOperations jdbcOperations,
-        ClientRegistrationRepository clientRegistrationRepository) {
-        return new JdbcOAuth2AuthorizedClientService(jdbcOperations, clientRegistrationRepository);
-    }
+//    @Bean
+//    public OAuth2AuthorizedClientService authorizedClientService(
+//        JdbcOperations jdbcOperations,
+//        ClientRegistrationRepository clientRegistrationRepository) {
+//        return new JdbcOAuth2AuthorizedClientService(jdbcOperations, clientRegistrationRepository);
+//    }
 
     @Bean
     public SecurityFilterChain filterChain(
         HttpSecurity http,
-        OAuth2AuthenticationSuccessHandler authenticationSuccessHandler,
+//        OAuth2AuthenticationSuccessHandler authenticationSuccessHandler,
         JwtAuthenticationProvider jwtAuthenticationProvider) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
@@ -58,8 +58,8 @@ public class WebSecurityConfig {
             .rememberMe(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .oauth2Login(auth -> auth
-                .successHandler(authenticationSuccessHandler))
+//            .oauth2Login(auth -> auth
+//                .successHandler(authenticationSuccessHandler))
             .addFilterAfter(new JwtAuthenticationFilter(jwtAuthenticationProvider),
                 SecurityContextHolderFilter.class);
         return http.build();

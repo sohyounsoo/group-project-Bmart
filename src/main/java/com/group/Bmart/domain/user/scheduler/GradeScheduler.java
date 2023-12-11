@@ -15,10 +15,4 @@ public class GradeScheduler {
 
     private final GradeService gradeService;
 
-    @Async
-    @Scheduled(cron = "0 0 5 1 * *")
-    @SchedulerLock(name = "Update_User_Grade", lockAtLeastFor = "PT10S")
-    public void updateUserGradeScheduler() {
-        gradeService.updateUserGrade();
-    }
 }

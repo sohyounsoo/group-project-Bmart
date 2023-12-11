@@ -24,19 +24,6 @@ public class GradeService {
 
     private final UserRepository userRepository;
 
-    @Transactional
-    public void updateUserGrade() {
-        LocalDateTime startTimeOfPreviousMonth = getStartTimeOfPreviousMonth();
-        LocalDateTime lastTimeOfPreviousMonth = getEndTimeOfPreviousMonth();
-
-        List<UserOrderCount> userOrderCounts = userRepository.getUserOrderCount(
-            startTimeOfPreviousMonth,
-            lastTimeOfPreviousMonth);
-        Map<UserGrade, List<UserOrderCount>> userGradeGroup = groupByUserGrade(userOrderCounts);
-        userGradeGroup.forEach(((userGrade, userOrderCountGroup) ->
-            userRepository.updateUserGrade(userGrade, extractUserIds(userOrderCountGroup))));
-    }
-
     private LocalDateTime getStartTimeOfPreviousMonth() {
         return YearMonth.now()
             .minusMonths(ONE)
