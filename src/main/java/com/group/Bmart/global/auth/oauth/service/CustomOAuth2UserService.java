@@ -30,6 +30,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Transactional
     public OAuth2User loadUser(final OAuth2UserRequest userRequest)
         throws OAuth2AuthenticationException {
+        // accessToken으로 서드파티에 요청해서 사용자 정보를 얻어옴
         OAuth2User oAuth2User = super.loadUser(userRequest);
         Map<String, Object> attributes = oAuth2User.getAttributes();
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
