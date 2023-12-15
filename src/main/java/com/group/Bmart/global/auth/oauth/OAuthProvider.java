@@ -34,7 +34,7 @@ public enum OAuthProvider {
     private static OAuthUserInfo extractNaverUserInfo(Map<String, Object> attributes) {
         Map<String, String> response = (Map<String, String>) attributes.get("response");
         String oAuthUserId = response.get("id");
-        String nickname = response.get("nickname");
+        String nickname = response.get("name");
         String email = response.get("email");
         return new OAuthUserInfo(oAuthUserId, nickname, email);
     }

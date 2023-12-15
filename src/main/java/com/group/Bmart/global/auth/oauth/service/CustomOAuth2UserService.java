@@ -45,6 +45,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             UserRole.ROLE_USER,
             UserGrade.NORMAL);
         RegisterUserResponse userResponse = userService.getOrRegisterUser(registerUserCommand);
+
         return new CustomOAuth2User(userResponse, attributes);
     }
 }
