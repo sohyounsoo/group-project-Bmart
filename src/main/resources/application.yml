@@ -59,4 +59,4 @@ spring:
 jwt:
   issuer: Bmart
   client-secret: K7na2VryLl+P8fWTG9vReR3F2pztYwLk8nSKTrs05zU=
-  expiry-seconds: 360
+  expiry-seconds: 3600
