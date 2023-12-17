@@ -12,6 +12,7 @@ plugins {
 }
 
 group = 'com.prgrms'
+
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -49,7 +50,8 @@ dependencies {
 
 	// db
 	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'com.mysql:mysql-connector-j'
+//	runtimeOnly 'com.mysql:mysql-connector-j'
+	runtimeOnly 'org.postgresql:postgresql'
 
 	// cache
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
@@ -61,7 +63,6 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok'
 	testImplementation "org.testcontainers:testcontainers:1.19.0"
 	testImplementation "org.testcontainers:junit-jupiter:1.19.0"
-
 
 	//querydsl 설정 추가
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
