@@ -1,7 +1,7 @@
 # Bmart api 프로젝트
 
 
-## 시작하기
+## 작업환경
 
 - Spring 3.x.x
 - Java
