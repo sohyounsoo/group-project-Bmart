@@ -5,13 +5,13 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${url}
-    username: ${username}
-    password: ${password}
+    url: ${db.url}
+    username: ${db.username}
+    password: ${db.password}
 
   jpa:
     show-sql: true
-    generate-ddl: false
+    generate-ddl: false2
     hibernate:
       ddl-auto: update
 
