@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  bmart-redis:
+    container_name: bmart-redis
+    image: redis:latest
+    ports:
+      - "8080:80"
+

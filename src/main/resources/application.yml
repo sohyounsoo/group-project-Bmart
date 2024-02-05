@@ -1,13 +1,18 @@
 spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
   profiles:
     include:
       - local
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${url}
-    username: ${username}
-    password: ${password}
+    url: ${db.url}
+    username: ${db.username}
+    password: ${db.password}
 
   jpa:
     show-sql: true
@@ -23,6 +28,7 @@ spring:
     level:
       org.hibernate.SQL: debug
       org.hibernate.orm.jdbc.bind: trace #??? ?? 3.x, hibernate6
+
 
   security:
     oauth2:
