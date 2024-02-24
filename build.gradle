@@ -132,3 +132,8 @@ sourceSets {
 clean {
 	delete file(generated)
 }
+
+task copySecret(type: Copy) {
+	from 'serect_repo/env/application-local.yml'
+	into 'src/main/resources'
+}

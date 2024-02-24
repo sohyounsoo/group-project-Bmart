@@ -1,0 +1,3 @@
+[submodule "serect_repo"]
+	path = serect_repo
+	url = https://github.com/KimGyeongHa/serect_repo.git

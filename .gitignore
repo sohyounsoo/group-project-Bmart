@@ -37,4 +37,4 @@ out/
 .vscode/
 
 # Ignore local configuration file
-application-local.yml
+## application-local.yml

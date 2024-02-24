@@ -5,11 +5,10 @@ import com.group.Bmart.domain.user.service.UserService;
 import com.group.Bmart.domain.user.service.request.FindUserCommand;
 import com.group.Bmart.domain.user.service.response.FindUserDetailResponse;
 import com.group.Bmart.global.auth.LoginUser;
-//import com.group.Bmart.global.auth.oauth.client.OAuthRestClient;
 import com.group.Bmart.global.auth.oauth.client.OAuthRestClient;
 import com.group.Bmart.global.dto.CommonResponse;
+import com.group.Bmart.global.dto.ErrorResponse;
 import com.group.Bmart.global.message.Message;
-import com.group.Bmart.global.util.ErrorTemplate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,13 +23,6 @@ public class UserController {
 
     private final UserService userService;
     private final OAuthRestClient restClient;
-
-//    @GetMapping("/users/me")
-//    public ResponseEntity<FindUserDetailResponse> findUser(@LoginUser Long userId) {
-//        FindUserDetailResponse findUserDetailResponse =
-//            userService.findUser(FindUserCommand.from(userId));
-//        return ResponseEntity.ok(findUserDetailResponse);
-//    }
 
     @GetMapping("/users/me")
     public ResponseEntity<CommonResponse> findUser(@LoginUser Long userId) {
@@ -61,8 +53,13 @@ public class UserController {
     }
 
     @ExceptionHandler(UserException.class)
-    public ResponseEntity<ErrorTemplate> userExHandle(UserException ex) {
-        return ResponseEntity.badRequest()
-            .body(ErrorTemplate.of(ex.getMessage()));
+    public ResponseEntity<ErrorResponse> userExHandle(UserException ex) {
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .code("USER_ERROR_CODE") // 예외 코드
+                .status(HttpStatus.BAD_REQUEST.value()) // HTTP 상태 코드
+                .message(ex.getMessage()) // 예외 메시지
+                .build();
+
+        return ResponseEntity.badRequest().body(errorResponse);
     }
 }
