@@ -45,11 +45,11 @@ deploy:
   - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_ACCESS_KEY
-    bucket: elasticbeanstalk-ap-northeast-2-284256502692 #bucket 이름
+    bucket: elasticbeanstalk-ap-northeast-2-284256502692
     key: bmart.zip
-    build_type: zip
+    bundle_type: zip
     application: bmart
-    deployent_group: bmart-group
+    deployment_group: bmart-group
     region: ap-northeast-2
     wait-until-deployed: true
 
