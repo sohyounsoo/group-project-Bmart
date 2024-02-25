@@ -25,15 +25,15 @@ script:
 - docker push $DOCKER_USERNAME/nginx-app:develop
 
 before_deploy:
-  - zip -r springboot-webservice-project
+  - zip -r bmart
   - mkdir -p deploy
-  - mv springboot-webservice-project.zip deploy/springboot-webservice-project.zip
+  - mv bmart.zip deploy/bmart.zip
 
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
-    bucket: springboot-webservice-build
+    bucket: elasticbeanstalk-ap-northeast-2-284256502692
     region: ap-northeast-2
     skip_cleanup: true
     acl: private
