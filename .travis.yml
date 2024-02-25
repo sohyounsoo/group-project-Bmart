@@ -39,6 +39,8 @@ deploy:
     acl: private
     local_dir: deploy
     wait-until-deployed: true
+    only:
+      branch: main # main branch 허용
 
 #CI 실행 완료 시 메일로 알람
 notifications:
