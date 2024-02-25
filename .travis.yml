@@ -1,0 +1,47 @@
+language: generic
+
+sudo: required
+
+dist: focal
+
+services:
+  - docker
+
+branches:
+  only:
+    - main
+
+git:
+  submodules: false
+before_install:
+  - echo -e "\n\nmachine github.com\n login $GITHUB_ACCESS_TOKEN\n" >~/.netrc
+  - git submodule update --init --recursive
+
+script:
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker build -t $DOCKER_USERNAME/bmart-app:develop -f Dockerfile-app .
+- docker push $DOCKER_USERNAME/bmart-app:develop
+- docker build -t $DOCKER_USERNAME/nginx-app:develop -f Dockerfile-nginx .
+- docker push $DOCKER_USERNAME/nginx-app:develop
+
+before_deploy:
+  - zip -r springboot-webservice-project
+  - mkdir -p deploy
+  - mv springboot-webservice-project.zip deploy/springboot-webservice-project.zip
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: springboot-webservice-build
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: private
+    local_dir: deploy
+    wait-until-deployed: true
+
+#CI 실행 완료 시 메일로 알람
+notifications:
+  email:
+    recipients:
+      - so5663@naver.com
