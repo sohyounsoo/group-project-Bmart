@@ -25,7 +25,7 @@ script:
 - docker push $DOCKER_USERNAME/nginx-app:develop
 
 before_deploy:
-  - zip -r bmart
+  - zip -r bmart .
   - mkdir -p deploy
   - mv bmart.zip deploy/bmart.zip
 
