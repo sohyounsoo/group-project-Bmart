@@ -1,0 +1,9 @@
+FROM gradle:8.5-jdk17  AS builder
+WORKDIR /bmart-app
+COPY . .
+RUN chmod +x ./gradlew 
+RUN ./gradlew clean build
+
+FROM openjdk:17-alpine
+COPY --from=builder /bmart-app/build/libs/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"] 

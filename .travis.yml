@@ -1,0 +1,33 @@
+language: generic
+
+sudo: required
+
+dist: focal
+
+services:
+  - docker
+
+git:
+  submodules: false
+before_install:
+  - echo -e "\n\nmachine github.com\n login $GITHUB_ACCESS_TOKEN\n" >~/.netrc
+  - git submodule update --init --recursive
+
+script:
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker build -t $DOCKER_USERNAME/bmart-app:develop -f Dockerfile-app .
+- docker push $DOCKER_USERNAME/bmart-app:develop
+- docker build -t $DOCKER_USERNAME/nginx-app:develop -f Dockerfile-nginx .
+- docker push $DOCKER_USERNAME/nginx-app:develop
+
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key: "$AWS_SECRET_ACCESS_KEY"
+  region: "ap-northeast-2"
+  app: "docker-bmart-app"
+  env: "Docker-bmart-app-env"
+  bucket_name: "elasticbeanstalk-ap-northeast-2-284256502692"
+  bucket_path : "docker-bmart-app"
+  on:
+    branch: develop
