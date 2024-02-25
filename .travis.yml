@@ -32,7 +32,7 @@ before_deploy:
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY
-    secret_access_key: $AWS_SECRET_KEY
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
     bucket: elasticbeanstalk-ap-northeast-2-284256502692
     region: ap-northeast-2
     skip_cleanup: true
