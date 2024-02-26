@@ -52,6 +52,8 @@ deploy:
     deployment_group: bmart-group
     region: ap-northeast-2
     wait-until-deployed: true
+    on:
+      branch: main # main branch 허용
 
 
 #CI 실행 완료 시 메일로 알람
