@@ -11,7 +11,7 @@ permissions:
   - object: /
     pettern: "**"
     owner: ec2-user
-    group: ec2-user
+    group: bmart-group
 
 hooks:
   ApplicationStart:
