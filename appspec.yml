@@ -7,12 +7,6 @@ files:
     destination: /home/ec2-user/app/step2/zip/
     overwrite: yes
 
-permissions:
-  - object: /
-    pettern: "**"
-    owner: ec2-user
-    group: bmart-group
-
 hooks:
   ApplicationStart:
     - location: deploy.sh
