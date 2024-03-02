@@ -133,6 +133,8 @@ clean {
 	delete file(generated)
 }
 
+processResources.dependsOn('copySecret')
+
 task copySecret(type: Copy) {
 	from 'serect_repo/env/application-local.yml'
 	into 'src/main/resources'
