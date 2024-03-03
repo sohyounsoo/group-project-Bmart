@@ -1,4 +1,7 @@
 #!/bin/bash
+REPOSITORY=/home/ec2-user/app/step2
+
+cd $REPOSITORY
 
 # 현재 실행 중인 컨테이너 확인
 running_containers=$(docker-compose ps -q)
