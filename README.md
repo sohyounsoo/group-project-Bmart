@@ -5,6 +5,9 @@
 
 - Spring 3.x.x
 - Java
+- JPA
 - Postgresql
 - Redis
-- Maven
+- gradle
+- ec2, rds, s3, codedeploy
+- travis
