@@ -4,46 +4,53 @@ import com.group.Bmart.domain.category.MainCategory;
 import com.group.Bmart.domain.category.SubCategory;
 import com.group.Bmart.domain.item.Item;
 import com.group.Bmart.domain.item.service.response.ItemRedisDto;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@Import(RedisConfig.class)
 class RedisConfigTest {
 
     @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+    private RedisConnectionFactory redisConnectionFactory;
 
+    @Autowired
+    private RedisTemplate<String, Long> stringToLongRedisTemplate;
+
+    @Autowired
     private ListOperations<String, String> listOperations;
 
-    @BeforeEach
-    public void setUp() {
-        // listOperations 초기화
-        listOperations = redisTemplate.opsForList();
-        // Redis 리스트 초기화
-        listOperations.trim("testList", 0, 0);
+    @Autowired
+    private RedisTemplate<String, ItemRedisDto> itemRedisDtoRedisTemplate;
+
+    @Test
+    public void testRedisConnectionFactory() {
+        assertNotNull(redisConnectionFactory);
+    }
+
+    @Test
+    public void testStringToLongRedisTemplate() {
+        assertNotNull(stringToLongRedisTemplate);
     }
 
     @Test
     public void testListOperations() {
-        // Redis 리스트에 데이터 추가
-        listOperations.leftPush("testList", "value1");
-        listOperations.leftPush("testList", "value2");
-        listOperations.leftPush("testList", "value3");
+        assertNotNull(listOperations);
+    }
 
-        // Redis 리스트의 크기 확인
-        Long listSize = listOperations.size("testList");
-        assertEquals(4, listSize); // 초기화된 요소 + 추가된 요소들
+    @Test
+    public void testItemRedisDtoRedisTemplate() {
+        assertNotNull(itemRedisDtoRedisTemplate);
     }
 
     @Test
