@@ -14,10 +14,7 @@ public class RedisCacheService {
     private final RedisTemplate<String, Long> numberOfReviewsRedisTemplate;
     private final ListOperations<String, String> listOperations;
 
-    public Long getTotalNumberOfReviewsByItemId(
-        final Long itemId,
-        final String cacheKey
-    ) {
+    public Long getTotalNumberOfReviewsByItemId(final Long itemId, final String cacheKey) {
         Long cachedCount = numberOfReviewsRedisTemplate.opsForValue().get(cacheKey);
 
         if (cachedCount != null) {

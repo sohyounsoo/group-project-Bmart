@@ -5,14 +5,15 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.group.Bmart.domain.item.Item;
+import lombok.Data;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 public record ItemRedisDto(Long itemId, String name, int price, int discount,
                            @JsonSerialize(using = LocalDateTimeSerializer.class)
                            @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-                           LocalDateTime createdAt
-) {
+                           LocalDateTime createdAt) {
 
     public static ItemRedisDto from(final Item item) {
         return new ItemRedisDto(
