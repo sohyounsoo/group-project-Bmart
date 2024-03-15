@@ -28,16 +28,17 @@ public class RedisConfig {
         return new LettuceConnectionFactory(host, port);
     }
 
+    // serializer 설정으로 redis-cli를 통해 직접 데이터를 조회할 수 있도록 설정
     @Bean
     public RedisTemplate<String, Long> stringToLongRedisTemplate() {
         RedisTemplate<String, Long> redisTemplate = new RedisTemplate<>();
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(
-            new GenericToStringSerializer<>(Long.class));
+        redisTemplate.setValueSerializer(new GenericToStringSerializer<>(Long.class));
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         return redisTemplate;
     }
 
+    // 여기서는 키와 값이 모두 String 타입인 Redis에 사용됩니다.
     @Bean
     public ListOperations<String, String> listOperations(
         RedisTemplate<String, String> redisStringTemplate) {
@@ -52,4 +53,5 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         return redisTemplate;
     }
+
 }

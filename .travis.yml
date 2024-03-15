@@ -25,20 +25,36 @@ script:
 - docker push $DOCKER_USERNAME/nginx-app:develop
 
 before_deploy:
-  - zip -r springboot-webservice-project
+  - zip -r bmart .
   - mkdir -p deploy
-  - mv springboot-webservice-project.zip deploy/springboot-webservice-project.zip
+  - mv bmart.zip deploy/bmart.zip
 
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY
-    secret_access_key: $AWS_SECRET_KEY
-    bucket: springboot-webservice-build
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    bucket: elasticbeanstalk-ap-northeast-2-284256502692 #bucket 이름
     region: ap-northeast-2
     skip_cleanup: true
     acl: private
     local_dir: deploy
     wait-until-deployed: true
+    on:
+      branch: main # main branch 허용
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    bucket: elasticbeanstalk-ap-northeast-2-284256502692
+    key: bmart.zip
+    bundle_type: zip
+    application: bmart
+    deployment_group: bmart-group
+    region: ap-northeast-2
+    wait-until-deployed: true
+    on:
+      branch: main # main branch 허용
+
 
 #CI 실행 완료 시 메일로 알람
 notifications:
