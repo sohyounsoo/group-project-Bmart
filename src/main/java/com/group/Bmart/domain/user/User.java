@@ -57,15 +57,15 @@ public class User extends BaseTimeEntity {
         final UserRole userRole,
         final UserGrade userGrade,
         final String address) {
-        validateNickname(nickname);
-        validateEmail(email);
-        this.nickname = nickname;
-        this.email = email;
-        this.provider = provider;
-        this.providerId = providerId;
-        this.userRole = userRole;
-        this.userGrade = userGrade;
-        this.address = address;
+            validateNickname(nickname);
+            validateEmail(email);
+            this.nickname = nickname;
+            this.email = email;
+            this.provider = provider;
+            this.providerId = providerId;
+            this.userRole = userRole;
+            this.userGrade = userGrade;
+            this.address = address;
     }
 
     private void validateNickname(String nickname) {
