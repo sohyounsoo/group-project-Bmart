@@ -115,7 +115,7 @@ public abstract class BaseControllerTest {
             final WebApplicationContext context,
             final RestDocumentationContextProvider provider) {
         JwtAuthenticationProvider jwtAuthenticationProvider
-= new JwtAuthenticationProvider(AuthFixture.tokenProvider());
+                = new JwtAuthenticationProvider(AuthFixture.tokenProvider());
 
         // MockMvc를 설정합니다.
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
