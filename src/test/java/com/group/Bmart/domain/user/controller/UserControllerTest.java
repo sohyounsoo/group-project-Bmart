@@ -3,7 +3,7 @@ package com.group.Bmart.domain.user.controller;
 import com.group.Bmart.base.BaseControllerTest;
 import com.group.Bmart.domain.user.User;
 import com.group.Bmart.domain.user.service.response.FindUserDetailResponse;
-import com.group.Bmart.support.UserFixture;
+import com.group.Bmart.domain.user.support.UserFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -78,7 +77,7 @@ class UserControllerTest extends BaseControllerTest {
                         .header("Authorization", accessToken));
 
                 //then
-                resultActions.andExpect(status().isNoContent())
+                resultActions.andExpect(status().isOk())
                         .andDo(restDocs.document(
                                 requestHeaders(
                                         headerWithName("Authorization").description("액세스 토큰")

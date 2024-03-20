@@ -1,4 +1,4 @@
-package com.group.Bmart.support;
+package com.group.Bmart.domain.user.support;
 
 import com.group.Bmart.domain.user.User;
 import com.group.Bmart.domain.user.UserGrade;

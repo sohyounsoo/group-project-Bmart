@@ -13,7 +13,7 @@ import com.group.Bmart.global.auth.jwt.JwtAuthenticationProvider;
 import com.group.Bmart.global.auth.jwt.filter.JwtAuthenticationFilter;
 import com.group.Bmart.global.auth.oauth.client.OAuthRestClient;
 import com.group.Bmart.global.infrastructure.ApiService;
-import com.group.Bmart.support.AuthFixture;
+import com.group.Bmart.domain.user.support.AuthFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -117,9 +117,10 @@ public abstract class BaseControllerTest {
         JwtAuthenticationProvider jwtAuthenticationProvider
                 = new JwtAuthenticationProvider(AuthFixture.tokenProvider());
 
+        // MockMvc를 설정합니다.
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
-                .alwaysDo(print())
-                .alwaysDo(restDocs)
+                .alwaysDo(print()) // 모든 요청과 응답을 콘솔에 출력합니다.
+                .alwaysDo(restDocs) // Spring REST Docs 설정을 적용합니다.
                 .alwaysDo(
                         document("{method-name}",
                                 preprocessRequest(prettyPrint()),
