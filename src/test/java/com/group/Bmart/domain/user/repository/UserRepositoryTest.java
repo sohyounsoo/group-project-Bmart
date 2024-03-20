@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -95,6 +96,55 @@ class UserRepositoryTest {
             //then
             assertThat(userOrderCounts).hasSize(1);
             assertThat(userOrderCounts.get(0).getOrderCount()).isEqualTo(5);
+        }
+
+        @Test
+        @DisplayName("성공: 유저 2, 주문 10, 5")
+        void successWhenTwoUserWithTenAndFiveOrder() {
+            //given
+            User user1 = createAndSaveUser();
+            List<Order> orders1 = createAndSaveAllOrders(user1, 5);
+
+            User user2 = createAndSaveUser();
+            List<Order> orders2 = createAndSaveAllOrders(user2, 5);
+
+            //when
+            List<UserOrderCount> userOrderCounts
+                    = userRepository.getUserOrderCount(start, end);
+
+            //then
+            assertThat(userOrderCounts).hasSize(2);
+            assertThat(userOrderCounts).map(UserOrderCount::getUserId)
+                    .containsExactlyInAnyOrder(user1.getUserId(), user2.getUserId());
+            assertThat(userOrderCounts).map(UserOrderCount::getOrderCount)
+                    .containsExactlyInAnyOrder(10, 5);
+        }
+    }
+
+    @Nested
+    @DisplayName("updateUserGrade 메서드 실행 시")
+    class UpdateUserGradeTest {
+
+        @Test
+        @DisplayName("성공")
+        void success() {
+            //given
+            List<User> users = IntStream.range(0, 5)
+                    .mapToObj(i -> createAndSaveUser())
+                    .toList();
+
+            List<Long> userIds = users.stream()
+                    .map(User::getUserId)
+                    .toList();
+            em.flush();
+            em.clear();
+
+            //when
+            userRepository.updateUserGrade(UserGrade.VIP, userIds);
+
+            //then
+            List<User> findUsers = userRepository.findAll();
+            assertThat(findUsers).map(User::getUserGrade).containsOnly(UserGrade.VIP);
         }
     }
 
