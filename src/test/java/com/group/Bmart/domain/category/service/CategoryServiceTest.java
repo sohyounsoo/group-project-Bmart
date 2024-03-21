@@ -143,6 +143,7 @@ class CategoryServiceTest {
         MainCategory mainCategory1 = new MainCategory("main1");
         MainCategory mainCategory2 = new MainCategory("main1");
         MainCategory mainCategory3 = new MainCategory("main1");
+
         return List.of(mainCategory1, mainCategory2, mainCategory3);
     }
 
