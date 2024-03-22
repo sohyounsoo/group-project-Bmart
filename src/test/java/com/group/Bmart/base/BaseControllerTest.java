@@ -1,5 +1,6 @@
 package com.group.Bmart.base;
 
+import com.group.Bmart.domain.cart.service.CartItemService;
 import com.group.Bmart.domain.category.service.CategoryService;
 import com.group.Bmart.domain.coupon.service.CouponService;
 import com.group.Bmart.domain.item.service.ItemService;
@@ -52,8 +53,8 @@ public abstract class BaseControllerTest {
     @MockBean
     protected UserService userService;
 
-//    @MockBean
-//    protected CartItemService cartItemService;
+    @MockBean
+    protected CartItemService cartItemService;
 
     @MockBean
     protected CategoryService categoryService;
