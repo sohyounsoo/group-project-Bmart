@@ -79,9 +79,9 @@ class UserControllerTest extends BaseControllerTest {
                 //then
                 resultActions.andExpect(status().isOk())
                         .andDo(restDocs.document(
-                                requestHeaders(
-                                        headerWithName("Authorization").description("액세스 토큰")
-                                )
+                            requestHeaders(
+                                    headerWithName("Authorization").description("액세스 토큰")
+                            )
                         ));
             }
         }
