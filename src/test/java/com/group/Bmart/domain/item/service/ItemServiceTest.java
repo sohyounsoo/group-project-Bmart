@@ -19,9 +19,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -106,13 +106,58 @@ class ItemServiceTest {
             when(mainCategoryRepository.findByName(any())).thenReturn(Optional.of(mainCategory));
             when(subCategoryRepository.findByName(any())).thenReturn(Optional.of(subCategory));
             when(itemRepository.findBySubCategoryOrderBy(
-                    any(), any(), anyLong(), anyLong(), any(), any())).thenReturn(expectedItems);
+                    any(MainCategory.class), any(SubCategory.class), anyLong(), anyLong(), any(ItemSortType.class), any(Pageable.class)))
+                    .thenReturn(expectedItems);
+
+            FindItemsResponse itemsResponse = itemService.findItemsByCategory(findItemsByCategoryCommand);
+            FindItemsResponse expectedResponse = FindItemsResponse.from(expectedItems);
+
+            //then
+            assertThat(itemsResponse.items().size()).isEqualTo(DEFAULT_PAGE_SIZE);
+            assertThat(itemsResponse).usingRecursiveComparison().isEqualTo(expectedResponse);
+        }
+
+        @Test
+        @DisplayName("할인율 높은 순으로 조회")
+        public void orderByDiscountRateDesc() {
+            //given
+            List<Item> expectedItems = getItems();
+            FindItemsByCategoryCommand findItemsByCategoryCommand = getFindItemsByCategoryCommand(
+                    ItemSortType.DISCOUNT);
+
+            //when
+            when(mainCategoryRepository.findByName(any())).thenReturn(Optional.of(mainCategory));
+            when(subCategoryRepository.findByName(any())).thenReturn(Optional.of(subCategory));
+            when(itemRepository.findBySubCategoryOrderBy(
+                    any(MainCategory.class), any(SubCategory.class), anyLong(), anyLong(), any(ItemSortType.class), any(Pageable.class)))
+                    .thenReturn(expectedItems);
 
             FindItemsResponse itemsResponse = itemService.findItemsByCategory(findItemsByCategoryCommand);
 
             //then
             assertThat(itemsResponse.items().size()).isEqualTo(DEFAULT_PAGE_SIZE);
+        }
 
+        @Test
+        @DisplayName("금액 높은 순으로 조회")
+        public void orderByPriceDesc() {
+            //given
+            List<Item> expectedItems = getItems();
+            FindItemsByCategoryCommand findItemsByCategoryCommand = getFindItemsByCategoryCommand(
+                    ItemSortType.HIGHEST_AMOUNT);
+
+            //when
+            when(mainCategoryRepository.findByName(any())).thenReturn(Optional.of(mainCategory));
+            when(subCategoryRepository.findByName(any())).thenReturn(Optional.of(subCategory));
+            when(itemRepository.findBySubCategoryOrderBy(
+                    any(MainCategory.class), any(SubCategory.class), anyLong(), anyLong(), any(ItemSortType.class), any(Pageable.class)))
+                    .thenReturn(expectedItems);
+
+            FindItemsResponse itemsResponse =
+                    itemService.findItemsByCategory(findItemsByCategoryCommand);
+
+            //then
+            assertThat(itemsResponse.items().size()).isEqualTo(DEFAULT_PAGE_SIZE);
         }
 
         private FindItemsByCategoryCommand getFindItemsByCategoryCommand(
@@ -157,6 +202,5 @@ class ItemServiceTest {
             return List.of(item1, item2, item3);
         }
     }
-
 
 }
