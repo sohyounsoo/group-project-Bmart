@@ -11,7 +11,6 @@ import com.group.Bmart.domain.category.repository.MainCategoryRepository;
 import com.group.Bmart.domain.category.repository.SubCategoryRepository;
 import com.group.Bmart.domain.item.Item;
 import com.group.Bmart.domain.item.ItemSortType;
-import com.group.Bmart.domain.item.support.ItemFixture;
 import com.group.Bmart.domain.order.OrderItem;
 import com.group.Bmart.domain.order.repository.OrderItemRepository;
 import jakarta.persistence.EntityManager;
