@@ -2,10 +2,13 @@ package com.group.Bmart.domain.delivery.service;
 
 import com.group.Bmart.domain.delivery.Delivery;
 import com.group.Bmart.domain.delivery.exception.AlreadyRegisteredDeliveryException;
+import com.group.Bmart.domain.delivery.exception.NotFoundDeliveryException;
 import com.group.Bmart.domain.delivery.exception.UnauthorizedDeliveryException;
 import com.group.Bmart.domain.delivery.repository.DeliveryRepository;
 import com.group.Bmart.domain.delivery.repository.RiderRepository;
+import com.group.Bmart.domain.delivery.service.request.FindDeliveryByOrderCommand;
 import com.group.Bmart.domain.delivery.service.request.RegisterDeliveryCommand;
+import com.group.Bmart.domain.delivery.service.response.FindDeliveryByOrderResponse;
 import com.group.Bmart.domain.order.Order;
 import com.group.Bmart.domain.order.exception.NotFoundOrderException;
 import com.group.Bmart.domain.order.repository.OrderRepository;
@@ -39,11 +42,19 @@ public class DeliveryService {
         return delivery.getDeliveryId();
     }
 
+    @Transactional(readOnly = true)
+    public FindDeliveryByOrderResponse findDeliverByOrder(
+            FindDeliveryByOrderCommand findDeliveryByOrderCommand) {
+        User user = findUserByUserId(findDeliveryByOrderCommand.userId());
+        Delivery delivery = findDeliveryByOrderWithOrder(findDeliveryByOrderCommand.orderId());
+        checkAuthority(delivery, user);
+        return FindDeliveryByOrderResponse.from(delivery);
+    }
+
     private void checkAlreadyRegisteredDelivery(final Order order) {
         if (deliveryRepository.existsByOrder(order)) {
             throw new AlreadyRegisteredDeliveryException("이미 배달이 생성된 주문입니다.");
         }
-
     }
 
     private User findUserByUserId(Long userId) {
@@ -63,5 +74,13 @@ public class DeliveryService {
         }
     }
 
-
+    private Delivery findDeliveryByOrderWithOrder(final Long orderId) {
+        return deliveryRepository.findByOrderIdWithOrder(orderId)
+                .orElseThrow(() -> new NotFoundDeliveryException("존재하지 않는 배달입니다."));
+    }
+    private void checkAuthority(final Delivery delivery, final User user) {
+        if (!delivery.isOwnByUser(user)) {
+            throw new UnauthorizedDeliveryException("권한이 없습니다.");
+        }
+    }
 }
