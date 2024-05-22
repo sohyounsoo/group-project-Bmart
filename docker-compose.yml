@@ -2,12 +2,6 @@ version: '3'
 
 services:
 
-  bmart-app:
-    container_name : bmart-app
-    image: corcoraos/bmart-app:develop
-    environment:
-      SPRING_REDIS_HOST: redis
-
   nginx:
     container_name : bmart-nginx
     image: corcoraos/nginx-app:develop
@@ -15,6 +9,12 @@ services:
       - "80:80"
     depends_on:
       - bmart-app
+      
+  bmart-app:
+    container_name : bmart-app
+    image: corcoraos/bmart-app:develop
+    environment:
+      SPRING_REDIS_HOST: redis
 
   redis:
     container_name: bmart-redis
