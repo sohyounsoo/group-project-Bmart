@@ -45,7 +45,7 @@ public class Rider extends BaseTimeEntity {
         this.address = address;
     }
     private void validateUsername(String username) {
-        if (nonNull(username) && !USERNAME_PATTERN.matcher(username).matches()) {
+        if (username == null || !USERNAME_PATTERN.matcher(username).matches()) {
             throw new InvalidRiderException(
                     "사용자 이름은 영어 소문자 또는 영어 소문자와 숫자 6자 이상, 20자 이하로 구성 되어야 합니다.");
         }
