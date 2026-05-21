@@ -70,7 +70,7 @@ public class DeliveryService {
     private void checkUserHasRegisterDeliveryAuthority(final Long userId) {
         User user = findUserByUserId(userId);
         if (!user.isEmployee()) {
-            throw new UnauthorizedDeliveryException("권환이 없습니다.");
+            throw new UnauthorizedDeliveryException("권한이 없습니다.");
         }
     }
 
