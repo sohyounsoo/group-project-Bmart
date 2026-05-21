@@ -100,7 +100,7 @@ public class Delivery extends BaseTimeEntity {
     }
 
     public void checkAuthority(final Rider rider) {
-        if (!this.rider.equals(rider)) {
+        if (!Objects.equals(this.rider, rider)) {
             throw new UnauthorizedDeliveryException("권한이 없습니다.");
         }
     }
