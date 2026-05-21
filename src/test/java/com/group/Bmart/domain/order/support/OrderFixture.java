@@ -33,4 +33,12 @@ public class OrderFixture {
 
         return order;
     }
+
+    public static Order deliveringOrder(long orderId, User user) {
+        Order order = new Order(user, List.of(orderItem()));
+        ReflectionTestUtils.setField(order, "orderId", orderId);
+        ReflectionTestUtils.setField(order, "status", OrderStatus.DELIVERING);
+
+        return order;
+    }
 }

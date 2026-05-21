@@ -1,9 +1,14 @@
 package com.group.Bmart.domain.delivery.service;
 
+import com.group.Bmart.domain.delivery.Delivery;
+import com.group.Bmart.domain.delivery.Rider;
 import com.group.Bmart.domain.delivery.exception.AlreadyRegisteredDeliveryException;
 import com.group.Bmart.domain.delivery.exception.UnauthorizedDeliveryException;
 import com.group.Bmart.domain.delivery.repository.DeliveryRepository;
+import com.group.Bmart.domain.delivery.service.request.FindDeliveryByOrderCommand;
 import com.group.Bmart.domain.delivery.service.request.RegisterDeliveryCommand;
+import com.group.Bmart.domain.delivery.service.response.FindDeliveryByOrderResponse;
+import com.group.Bmart.domain.delivery.support.DeliveryFixture;
 import com.group.Bmart.domain.order.Order;
 import com.group.Bmart.domain.order.exception.NotFoundOrderException;
 import com.group.Bmart.domain.order.repository.OrderRepository;
@@ -11,18 +16,20 @@ import com.group.Bmart.domain.order.support.OrderFixture;
 import com.group.Bmart.domain.user.User;
 import com.group.Bmart.domain.user.repository.UserRepository;
 import com.group.Bmart.domain.user.support.UserFixture;
+import org.assertj.core.data.TemporalUnitOffset;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static com.group.Bmart.domain.order.support.OrderFixture.deliveringOrder;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -42,11 +49,16 @@ class DeliveryServiceTest {
     @Mock
     OrderRepository orderRepository;
 
+    User user = UserFixture.user();
+    Order order = deliveringOrder(1L, user);
+    Rider rider = DeliveryFixture.rider();
+    Delivery delivery = DeliveryFixture.acceptedDelivery(order, rider);
+    TemporalUnitOffset withInOneSeconds = within(1, ChronoUnit.SECONDS);
+
     @Nested
     @DisplayName("registerDelivery 메서드 실행 시")
-    class RegisterDeliverTest {
+    class RegisterDeliveryTest {
 
-        User user = UserFixture.user();
         User employee = UserFixture.employee();
         Order order = OrderFixture.payedOrder(1L, user);
 
@@ -86,7 +98,7 @@ class DeliveryServiceTest {
         @DisplayName("예외: 존재하지 않는 order")
         void throwExceptionWhenNotFoundOrder() {
             //given
-            given(userRepository.findById(any())).willReturn(Optional.ofNullable(user));
+            given(userRepository.findById(any())).willReturn(Optional.ofNullable(employee));
             given(orderRepository.findByIdPessimistic(any())).willReturn(Optional.empty());
 
             //when
@@ -108,9 +120,29 @@ class DeliveryServiceTest {
             assertThatThrownBy(() -> deliveryService.registerDelivery(registerDeliveryCommand))
                     .isInstanceOf(AlreadyRegisteredDeliveryException.class);
         }
-
     }
 
+    @Nested
+    @DisplayName("findDeliverByOrder 메서드 실행 시")
+    class FindDeliveryByOrderTest {
 
+        FindDeliveryByOrderCommand findDeliveryByOrderCommand = DeliveryFixture.findDeliveryCommand();
+
+        @Test
+        @DisplayName("성공")
+        void success() {
+            //given
+            given(userRepository.findById(any())).willReturn(Optional.ofNullable(user));
+            given(deliveryRepository.findByOrderIdWithOrder(any()))
+                    .willReturn(Optional.ofNullable(delivery));
+
+            //when
+            FindDeliveryByOrderResponse findDeliveryByOrderResponse = deliveryService.findDeliverByOrder(findDeliveryByOrderCommand);
+
+            //then
+            assertThat(findDeliveryByOrderResponse.deliveryStatus())
+                    .isEqualTo(delivery.getDeliveryStatus());
+        }
+    }
 
 }
