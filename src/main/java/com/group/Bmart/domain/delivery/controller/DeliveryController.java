@@ -51,7 +51,7 @@ public class DeliveryController {
 
         CommonResponse response = CommonResponse.builder()
                 .success(true)
-                .response("")
+                .response(findDeliveryByOrderResponse)
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
