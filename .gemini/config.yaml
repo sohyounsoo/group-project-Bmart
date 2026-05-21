@@ -1,1 +1,13 @@
-version: 1
+version: "1"
+settings:
+  # 기본 응답 언어를 한국어로 강제 고정합니다.
+  default_language: "ko"
+  localization:
+    language: "Korean"
+    region: "KR"
+  
+  # 코드 리뷰 시 적용할 페르소나 및 핵심 지침
+  code_review:
+    system_instruction: |
+      You are an expert software engineer. 
+      CRITICAL RULE: All your responses, pull request summaries, line comments, and suggestions MUST be written in Korean. Never use English for explanations.

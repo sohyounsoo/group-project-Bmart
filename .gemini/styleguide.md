@@ -1,4 +1,10 @@
-# Style Guide for Gemini Code Assist
+# 프로젝트 코드 리뷰 스타일 가이드
 
-- **Response Language:** 모든 코드 리뷰, 코멘트 및 제안 사항은 반드시 **한국어(Korean)**로 작성해 주세요.
-- **Review Tone:** 전문적이고 건설적이며 친절한 톤을 유지해 주세요.
+## 1. 언어 및 소통 규칙 (Language & Communication)
+- **모든 리뷰 의견은 반드시 한국어로 작성합니다.** (All review comments must be in Korean.)
+- 개발 전문 용어(예: Refactoring, Thread, Memory Leak 등)는 관용적으로 한글이나 영어 원문을 섞어 써도 좋으나, 전체적인 설명 문장은 완벽한 한국어 평서문(~합니다, ~해 주세요)으로 작성해야 합니다.
+
+## 2. 코드 품질 기준
+- 변수명과 함수명은 직관적인지 확인합니다.
+- 불필요하게 복잡한 로직은 리팩토링을 제안합니다.
+- 잠재적인 보안 취약점이나 메모리 누수 가능성을 체크합니다.
